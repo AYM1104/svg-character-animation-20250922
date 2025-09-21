@@ -1,3 +1,14 @@
+/* SVGを画面フルサイズにして中央配置 */
+.character {
+    width: 100vw;
+    height: 50vh;
+    display: block;
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
 #left-leg, #right-leg {
     transform-box: fill-box;   /* transform-origin をパス基準にする */
     transform-origin: 50% 0%;  /* 足の上を回転の基点にする */
@@ -74,7 +85,7 @@
   }
   
   @keyframes walk-move {
-    0%   { transform: translateX(320px); }
-    100% { transform: translateX(-320px); }
+    0%   { transform: translateX(100vw); }  /* 画面右端から開始 */
+    100% { transform: translateX(-100vw); } /* 画面左端まで移動 */
   }
   
