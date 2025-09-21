@@ -1,0 +1,27 @@
+# 一時ファイル
+*.tmp
+*.temp
+
+# ログファイル
+*.log
+
+# エディタ関連
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS関連
+.DS_Store
+Thumbs.db
+
+# Node.js関連（将来的に使用する場合）
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ビルド成果物
+dist/
+build/

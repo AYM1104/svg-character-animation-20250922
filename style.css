@@ -1,0 +1,80 @@
+#left-leg, #right-leg {
+    transform-box: fill-box;   /* transform-origin をパス基準にする */
+    transform-origin: 50% 0%;  /* 足の上を回転の基点にする */
+}
+
+/* 左足を前後に振る */
+#left-leg {
+    animation: walk-left 1s infinite alternate ease-in-out;
+}
+
+/* 右足を前後に振る */
+#right-leg {
+    animation: walk-right 1s infinite alternate ease-in-out;
+}
+  
+/* 左足 */
+@keyframes walk-left {
+0%   { transform: rotate(20deg); }
+100% { transform: rotate(-20deg); }
+}
+  
+/* 右足（逆位相で動く） */
+@keyframes walk-right {
+0%   { transform: rotate(-20deg); }
+100% { transform: rotate(20deg); }
+}
+
+/* 体+角の上下ゆれ（共通ラッパ） */
+#torso {
+    animation: bob 1s infinite ease-in-out;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translate(10px,55px) translateY(0); }
+    50%      { transform: translate(10px,55px) translateY(6px); }
+  }
+  
+/* 角だけのプルプル回転（少し遅延させると可愛い） */
+#antler {
+    transform-box: fill-box;
+    transform-origin: 20% 100%;     /* 角の根本あたりを軸に（要微調整） */
+    animation: wiggle 1s infinite ease-in-out .05s;
+}
+@keyframes wiggle {
+    0%,100% { transform: rotate(-6deg); }
+    50%     { transform: rotate(6deg);  }
+}
+
+/* 黒目は自分の中心基準で動かす */
+#left-eye-black, #right-eye-black {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+  }
+  
+  /* 右を見る */
+  .look-up-then-right {
+    animation: eye-up-then-right 4s infinite ease-in-out;
+  }
+  
+  @keyframes eye-up-then-right {
+    0%   { transform: translate(0, 0); }
+    25%  { transform: translate(0, -10px); }   /* 上 */
+    50%  { transform: translate(10px, -10px); }/* 右上 */
+    75%  { transform: translate(18px, 0); }    /* ← 右に寄せる強め */
+    100% { transform: translate(0, 0); }       /* 正面に戻る */
+  }
+
+  #character {
+    animation: walk-move 10s linear infinite;
+    animation-play-state: running; /* 初期状態は再生 */
+  }
+  
+  #character.paused {
+    animation-play-state: paused; /* 停止用クラス */
+  }
+  
+  @keyframes walk-move {
+    0%   { transform: translateX(320px); }
+    100% { transform: translateX(-320px); }
+  }
+  
