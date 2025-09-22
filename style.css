@@ -7,6 +7,7 @@
     top: 50%;
     left: 0;
     transform: translateY(-50%);
+    overflow: visible; /* 画面外から入ってくる時のはみ出し可 */
 }
 
 #left-leg, #right-leg {
@@ -17,11 +18,13 @@
 /* 左足を前後に振る */
 #left-leg {
     animation: walk-left 1s infinite alternate ease-in-out;
+    animation-play-state: var(--play, running);
 }
 
 /* 右足を前後に振る */
 #right-leg {
     animation: walk-right 1s infinite alternate ease-in-out;
+    animation-play-state: var(--play, running);
 }
   
 /* 左足 */
@@ -39,6 +42,7 @@
 /* 体+角の上下ゆれ（共通ラッパ） */
 #torso {
     animation: bob 1s infinite ease-in-out;
+    animation-play-state: var(--play, running);
   }
   @keyframes bob {
     0%, 100% { transform: translate(10px,55px) translateY(0); }
@@ -50,6 +54,7 @@
     transform-box: fill-box;
     transform-origin: 20% 100%;     /* 角の根本あたりを軸に（要微調整） */
     animation: wiggle 1s infinite ease-in-out .05s;
+    animation-play-state: var(--play, running);
 }
 @keyframes wiggle {
     0%,100% { transform: rotate(-6deg); }
@@ -65,6 +70,7 @@
   /* 右を見る */
   .look-up-then-right {
     animation: eye-up-then-right 4s infinite ease-in-out;
+    animation-play-state: var(--play, running);
   }
   
   @keyframes eye-up-then-right {
@@ -75,17 +81,24 @@
     100% { transform: translate(0, 0); }       /* 正面に戻る */
   }
 
-  #character {
-    animation: walk-move 15s linear infinite; /* 10sから15sに変更 */
-    animation-play-state: running; /* 初期状態は再生 */
-  }
-  
-  #character.paused {
-    animation-play-state: paused; /* 停止用クラス */
+  /* 横移動（本体ラッパ） */
+  .character-root {
+    animation: walk-move var(--speed, 15s) linear infinite; /* 速度は変数 */
+    animation-play-state: var(--play, running); /* 再生/停止は --play で一括制御 */
   }
   
   @keyframes walk-move {
-    0%   { transform: translateX(100vw); }  /* 画面右端から開始 */
-    100% { transform: translateX(-100vw); } /* 画面左端まで移動 */
+    0%   { transform: translateX(140vw); }   /* 画面右外から開始 */
+    100% { transform: translateX(-220vw); }  /* 左に十分抜けるまで移動 */
   }
+
+  /* 複数体のディレイ（重なり回避） */
+  .char:nth-of-type(2) .character-root { animation-delay: .6s; }
+  .char:nth-of-type(3) .character-root { animation-delay: 1.2s; }
+  .char:nth-of-type(4) .character-root { animation-delay: 1.8s; }
   
+/* ── 色指定は <use fill> から直接渡す前提 ── */
+.char .fill-body { fill: inherit; }
+
+/* クリック停止用：.char に paused が付いたら --play を停止に */
+.char.paused { --play: paused; }
